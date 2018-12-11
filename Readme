@@ -1,6 +1,5 @@
 #Connecting with the beeline:-
-beeline> !connect jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKe
-eper;zooKeeperNamespace=hiveserver2
+beeline> !connect jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2
 
 #Create database named kaushal in hive
 create database kaushal;
