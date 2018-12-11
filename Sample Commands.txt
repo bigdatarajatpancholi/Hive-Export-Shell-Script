@@ -1,0 +1,51 @@
+Command:-
+
+./j800_execute_hive_export_table.sh jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2 "select * from kaushal.kothari_parquet" "bigdataRP.log" "," "marketing"
+
+./test.sh "jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2" "select * from kaushal.kothari_parquet" "sample.log" "," "marketing"
+
+beeline -u $hive_conn_string -e "DROP TABLE IF EXISTS ${database}.${table}_out;CREATE EXTERNAL TABLE ${database}.${table}_out (${fields})
+        ROW FORMAT DELIMITED
+        FIELDS TERMINATED BY '${delimiter}'
+        STORED AS TEXTFILE
+        LOCATION '${hdfs_out_location}'" 
+		
+		
+beeline -u "jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2" -e "DROP TABLE IF EXISTS kaushal.kothari_text_out; CREATE EXTERNAL TABLE kaushal.kothari_text_out (id int, name string) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION '/user/bigdatarajatpancholi1035/text_out'"
+		
+		
+beeline -u "jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2" -n bigdatarajatpancholi1035 -p 2Y7SWMYP -e "INSERT INTO TABLE kaushal.kothari_text_out select * from kaushal.kothari_text_out1"
+		
+		
+create external table kaushal.kothari_text_out (id int, name string) row format delimited fields terminated by ',' s
+tored as textfile location '/user/bigdatarajatpancholi1035/text_out';
+		
+		
+beeline> !connect jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKe
+eper;zooKeeperNamespace=hiveserver2
+
+		DROP TABLE IF EXISTS kaushal.kothari;
+		
+		CREATE EXTERNAL TABLE kaushal.kothari (registration_dttm timestamp,id int,first_name string,last_name string,email string,gender string,ip_address string,cc string,country string,birthdate string,salary double,title string,comments string)
+        ROW FORMAT DELIMITED
+        FIELDS TERMINATED BY ','
+        STORED AS TEXTFILE
+        LOCATION '/user/bigdatarajatpancholi1035/txt_out';
+		
+		INSERT INTO TABLE kaushal.kothari SELECT * FROM kaushal.kothari_parquet;
+		
+		CREATE EXTERNAL TABLE kaushal.kothari_parquet (registration_dttm timestamp,id int,first_name string,last_name string,email string,gender string,ip_address string,cc string,country string,birthdate string,salary double,title string,comments string)
+        ROW FORMAT DELIMITED
+        FIELDS TERMINATED BY ','
+        STORED AS PARQUET
+        LOCATION '/user/bigdatarajatpancholi1035/parquet_out';
+		
+		
+		CREATE EXTERNAL TABLE kaushal.kothari_day ($(fields))
+        ROW FORMAT DELIMITED
+        FIELDS TERMINATED BY ','
+        STORED AS TEXTFILE
+        LOCATION '/user/bigdatarajatpancholi1035/day_out';
+		
+		
+		'hdfs://user/bigdatarajatpancholi1035/day_out_try'
