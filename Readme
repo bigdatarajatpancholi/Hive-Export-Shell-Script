@@ -1,0 +1,46 @@
+#Connecting with the beeline:-
+beeline> !connect jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKe
+eper;zooKeeperNamespace=hiveserver2
+
+#Create database named kaushal in hive
+create database kaushal;
+
+#Command to create the parquet table:-
+CREATE EXTERNAL TABLE `kaushal.kothari_parquet`(
+  `registration_dttm` timestamp, 
+  `id` int, 
+  `first_name` string, 
+  `last_name` string, 
+  `email` string, 
+  `gender` string, 
+  `ip_address` string, 
+  `cc` string, 
+  `country` string, 
+  `birthdate` string, 
+  `salary` double, 
+  `title` string, 
+  `comments` string)
+ROW FORMAT DELIMITED 
+  FIELDS TERMINATED BY ',' 
+STORED AS INPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetInputFormat' 
+OUTPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.parquet.MapredParquetOutputFormat'
+LOCATION
+  'hdfs://ip-172-31-35-141.ec2.internal:8020/user/bigdatarajatpancholi1035/parquet_out'
+TBLPROPERTIES (
+  'numFiles'='1', 
+  'totalSize'='113629', 
+  'transient_lastDdlTime'='1544250620')
+  
+  #Parquet file userdata1.parquet is uploaded to HDFS on this location:- 'hdfs://ip-172-31-35-141.ec2.internal:8020/user/bigdatarajatpancholi1035/parquet_out'
+  
+  #Now in order to get the records of the parquet table, We will be running a shell script that will create another external table
+  parquet_out and it will insert the records of the parquet table into the parquet_out table and will move the file into the edge node.
+  
+  #Command to run the shell script:-
+  ./test.sh "jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2" "select * from kaushal.kothari_parquet" "sample.log" "," "marketing"
+  
+  
+
+  
