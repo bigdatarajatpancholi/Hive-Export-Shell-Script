@@ -61,3 +61,14 @@ echo "Ending of create_table"
 echo "Starting of Insert Statement"
 beeline -u $hive_conn_string -n bigdatarajatpancholi1035 -p 2Y7SWMYP -e "INSERT INTO TABLE ${database}.${table}_text_out ${export_stmt}"   >> ./insert_stmt.txt
 echo "Ending of Insert Statement"
+
+filename="/home/bigdatarajatpancholi1035/staging/${information_area}/out/${filename}"
+		
+		echo "filename= $filename"
+
+        hdfs dfs -getmerge $hdfs_out_location ${filename}_tmp.csv
+
+        echo $header > ${filename}.csv
+        cat ${filename}_tmp.csv >> ${filename}.csv
+
+        rm ${filename}_tmp.csv
