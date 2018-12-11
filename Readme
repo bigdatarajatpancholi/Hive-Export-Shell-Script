@@ -38,7 +38,7 @@ TBLPROPERTIES (
   parquet_out and it will insert the records of the parquet table into the parquet_out table and will move the file into the edge node.
   
   #Command to run the shell script:-
-  ./test.sh "jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2" "select * from kaushal.kothari_parquet" "sample.log" "," "marketing"
+  ./test.sh "jdbc:hive2://ip-172-31-38-146.ec2.internal:2181,ip-172-31-35-141.ec2.internal:2181,ip-172-31-20-247.ec2.internal:2181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2" "select * from kaushal.kothari_parquet" "praquet_to_text" "," "marketing" >> sample.log
   
   
 
